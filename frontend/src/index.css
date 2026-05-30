@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+body {
+  background-color: #0B0F19;
+  color: white;
+  overflow-x: hidden;
+  --accent-cyan: 0, 242, 254;
+  --accent-purple: 79, 172, 254;
+}
+
+body[data-palette='ocean'] {
+  --accent-cyan: 0, 242, 254;
+  --accent-purple: 79, 172, 254;
+}
+
+body[data-palette='aurora'] {
+  --accent-cyan: 45, 212, 191;
+  --accent-purple: 59, 130, 246;
+}
+
+body[data-palette='sunset'] {
+  --accent-cyan: 251, 146, 60;
+  --accent-purple: 244, 114, 182;
+}
+
+body[data-palette='royal'] {
+  --accent-cyan: 129, 140, 248;
+  --accent-purple: 167, 139, 250;
+}
+
+body[data-palette='mint'] {
+  --accent-cyan: 52, 211, 153;
+  --accent-purple: 34, 197, 94;
+}
+
+body[data-theme='light'] {
+  background-color: #f5f7fb;
+  color: #0f172a;
+}
+
+body[data-theme='light'] .bg-darkBg {
+  background-color: #f5f7fb !important;
+}
+
+body[data-theme='light'] .bg-darkSurface,
+body[data-theme='light'] .bg-black\/20,
+body[data-theme='light'] .bg-black\/30,
+body[data-theme='light'] .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+}
+
+body[data-theme='light'] .text-white {
+  color: #0f172a !important;
+}
+
+body[data-theme='light'] .text-gray-300 {
+  color: #334155 !important;
+}
+
+body[data-theme='light'] .text-gray-400 {
+  color: #64748b !important;
+}
+
+body[data-theme='light'] .border-white\/10,
+body[data-theme='light'] .border-white\/25 {
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}
+
+body[data-theme='light'] .shadow-\[0_24px_80px_rgba\(0\,0\,0\,0\.35\)\],
+body[data-theme='light'] .shadow-\[0_30px_100px_rgba\(0\,0\,0\,0\.35\)\],
+body[data-theme='light'] .shadow-\[0_16px_60px_rgba\(0\,0\,0\,0\.35\)\],
+body[data-theme='light'] .shadow-\[0_30px_120px_rgba\(0\,0\,0\,0\.55\)\] {
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Futuristic Cyber Grid */
+.bg-grid-pattern {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 242, 254, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(79, 172, 254, 0.05) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+}
