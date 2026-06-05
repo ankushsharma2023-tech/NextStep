@@ -27,9 +27,9 @@ app.use(express.json());
 // Database Connection
 const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/nextstep';
 mongoose.connect(mongoUri)
-  .then(() => console.log('✅ MongoDB Connected'))
+  .then(() => console.log('? MongoDB Connected'))
   .catch(err => {
-    console.error('❌ MongoDB Error: Failed to connect to', mongoUri);
+    console.error('? MongoDB Error: Failed to connect to', mongoUri);
     console.error(err);
   });
 
@@ -37,7 +37,13 @@ mongoose.connect(mongoUri)
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/reviews', require('./routes/reviews'));
 
+app.get('/api/health', (_req, res) => {
+  res.json({
+    ok: true,
+    mongo: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+  });
+});
+
 // Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
+app.listen(PORT, () => console.log(`?? Server running on port ${PORT}`));

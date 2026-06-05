@@ -24,6 +24,7 @@ export default function CollegeReviews() {
         setReviews(response.data || []);
       } catch (error) {
         setReviews([]);
+        setStatus(error.response?.data?.message || 'Unable to load reviews right now.');
       }
     };
 
@@ -109,7 +110,7 @@ export default function CollegeReviews() {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <h3 className="font-semibold text-white">{review.collegeName}</h3>
-                    <p className="text-sm text-gray-400">{review.studentName}{review.course ? ` • ${review.course}` : ''}</p>
+                    <p className="text-sm text-gray-400">{review.studentName}{review.course ? ` - ${review.course}` : ''}</p>
                   </div>
                   <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-black/20 px-3 py-1 text-sm font-semibold text-rose-200">
                     <Star className="h-4 w-4 fill-current" />
