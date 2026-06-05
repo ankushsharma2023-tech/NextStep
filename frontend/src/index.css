@@ -53,11 +53,29 @@ body[data-theme='light'] .text-white {
   color: #0f172a !important;
 }
 
+body[data-theme='light'] .text-gray-500,
+body[data-theme='light'] .text-gray-600 {
+  color: #475569 !important;
+}
+
 body[data-theme='light'] .text-gray-300 {
   color: #334155 !important;
 }
 
 body[data-theme='light'] .text-gray-400 {
+  color: #64748b !important;
+}
+
+body[data-theme='light'] .text-neonCyan,
+body[data-theme='light'] .text-neonPurple,
+body[data-theme='light'] .text-cyan-200,
+body[data-theme='light'] .text-cyan-300,
+body[data-theme='light'] .text-rose-200,
+body[data-theme='light'] .text-rose-300 {
+  color: #0f766e !important;
+}
+
+body[data-theme='light'] .placeholder\:text-gray-500::placeholder {
   color: #64748b !important;
 }
 
@@ -93,12 +111,30 @@ body[data-theme='study'] .text-white {
   color: #1f2937 !important;
 }
 
+body[data-theme='study'] .text-gray-500,
+body[data-theme='study'] .text-gray-600 {
+  color: #52606d !important;
+}
+
 body[data-theme='study'] .text-gray-300 {
   color: #445566 !important;
 }
 
 body[data-theme='study'] .text-gray-400 {
   color: #607080 !important;
+}
+
+body[data-theme='study'] .text-neonCyan,
+body[data-theme='study'] .text-neonPurple,
+body[data-theme='study'] .text-cyan-200,
+body[data-theme='study'] .text-cyan-300,
+body[data-theme='study'] .text-rose-200,
+body[data-theme='study'] .text-rose-300 {
+  color: #166534 !important;
+}
+
+body[data-theme='study'] .placeholder\:text-gray-500::placeholder {
+  color: #64748b !important;
 }
 
 body[data-theme='study'] .border-white\/10,

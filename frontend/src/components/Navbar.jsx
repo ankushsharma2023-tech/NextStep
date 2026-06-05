@@ -72,11 +72,11 @@ export default function Navbar() {
   }, []);
 
   const cycleTheme = () => {
-    setTheme((current) => {
-      if (current === 'dark') return 'light';
-      if (current === 'light') return 'study';
-      return 'dark';
-    });
+    setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
+  };
+
+  const setStudyTheme = () => {
+    setTheme('study');
   };
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
@@ -335,7 +335,7 @@ export default function Navbar() {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Theme</p>
-                  <p className="text-sm text-gray-300">Light / study / dark</p>
+                  <p className="text-sm text-gray-300">Light or dark mode</p>
                 </div>
                 <button
                   type="button"
@@ -343,16 +343,48 @@ export default function Navbar() {
                   className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-white/25 hover:bg-white/5"
                 >
                   {theme === 'dark' ? <SunMedium className="h-4 w-4" /> : <MoonStar className="h-4 w-4" />}
-                  {theme === 'dark' ? 'Light' : theme === 'light' ? 'Study' : 'Dark'}
+                  {theme === 'dark' ? 'Light' : 'Dark'}
                 </button>
               </div>
+
+              <button
+                type="button"
+                onClick={setStudyTheme}
+                className="mt-3 inline-flex items-center gap-2 rounded-full border border-emerald-200/20 bg-emerald-200/10 px-4 py-2 text-sm font-semibold text-emerald-100 transition-colors hover:border-emerald-200/40 hover:bg-emerald-200/15"
+              >
+                <BookOpen className="h-4 w-4" />
+                Study theme
+              </button>
             </div>
 
             <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Palette</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Study colors</p>
               <p className="mt-2 text-sm leading-6 text-gray-400">
-                Palette controls stay hidden on mobile so the header is cleaner and easier to use.
+                Pick a reading-friendly color preset for notes, menus, and study screens.
               </p>
+              <div className="mt-4 grid gap-2">
+                {paletteOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => {
+                      applyPalette(option.id);
+                      closeMobileMenu();
+                    }}
+                    className={`flex items-center gap-3 rounded-2xl border px-3 py-3 text-left transition-colors hover:bg-white/5 ${palette === option.id ? 'border-neonCyan/40 bg-white/5' : 'border-white/10 bg-white/5'}`}
+                  >
+                    <span className="flex items-center gap-1">
+                      {option.swatches.map((color) => (
+                        <span key={color} className="h-4 w-4 rounded-full border border-white/20" style={{ backgroundColor: color }} />
+                      ))}
+                    </span>
+                    <span>
+                      <span className="block text-sm font-semibold text-white">{option.label}</span>
+                      <span className="block text-xs text-gray-400">Study-friendly accent</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
             </motion.div>
           </>
