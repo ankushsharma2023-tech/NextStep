@@ -1,29 +1,8 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code, BrainCircuit, Building2, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function Landing() {
-  const features = [
-    {
-      icon: Building2,
-      color: 'text-neonCyan',
-      title: 'College Analytics',
-      desc: 'Cross-reference placement data, fees, and campus metrics in real-time.',
-    },
-    {
-      icon: BrainCircuit,
-      color: 'text-neonPurple',
-      title: 'Neural Roadmaps',
-      desc: 'Dynamic learning paths that adapt to your pace and chosen tech stack.',
-    },
-    {
-      icon: Code,
-      color: 'text-neonCyan',
-      title: 'Daily Algorithms',
-      desc: 'Maintain your coding streak with ATS-vetted DSA challenges.',
-    },
-  ];
-
   const highlights = [
     { label: 'Analytics', to: '/analytics', desc: 'Placement insights and student progress' },
     { label: 'Roadmaps', to: '/roadmaps', desc: 'Role-based learning tracks' },

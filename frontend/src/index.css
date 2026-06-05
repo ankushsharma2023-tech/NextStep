@@ -155,8 +155,8 @@ body[data-theme='study'] .shadow-\[0_30px_120px_rgba\(0\,0\,0\,0\.55\)\] {
   background-image: 
     linear-gradient(to right, rgba(0, 242, 254, 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(79, 172, 254, 0.05) 1px, transparent 1px);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
   -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
 }
 
 .marquee-track {

@@ -75,6 +75,11 @@ export default function Navbar() {
     setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
   };
 
+  const applyPalette = (nextPalette) => {
+    setPalette(nextPalette);
+    setPaletteOpen(false);
+  };
+
   const setStudyTheme = () => {
     setTheme('study');
   };
