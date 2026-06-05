@@ -96,6 +96,14 @@ export default function Navbar() {
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-darkSurface/80 backdrop-blur-xl"
     >
+      <div className="overflow-hidden border-b border-white/10 bg-black/20">
+        <div className="marquee-track flex w-max items-center gap-10 whitespace-nowrap px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-white/65 sm:px-6 lg:px-8">
+          <span>Plan your path. Learn faster. Review colleges. Get counselling.</span>
+          <span aria-hidden="true">Plan your path. Learn faster. Review colleges. Get counselling.</span>
+          <span aria-hidden="true">Plan your path. Learn faster. Review colleges. Get counselling.</span>
+        </div>
+      </div>
+
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-3">
           <div
