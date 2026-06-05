@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 body {
   background-color: #0B0F19;
@@ -73,6 +73,46 @@ body[data-theme='light'] .shadow-\[0_30px_120px_rgba\(0\,0\,0\,0\.55\)\] {
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08) !important;
 }
 
+body[data-theme='study'] {
+  background-color: #f3f8f1;
+  color: #16301f;
+}
+
+body[data-theme='study'] .bg-darkBg {
+  background-color: #f3f8f1 !important;
+}
+
+body[data-theme='study'] .bg-darkSurface,
+body[data-theme='study'] .bg-black\/20,
+body[data-theme='study'] .bg-black\/30,
+body[data-theme='study'] .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+body[data-theme='study'] .text-white {
+  color: #1f2937 !important;
+}
+
+body[data-theme='study'] .text-gray-300 {
+  color: #445566 !important;
+}
+
+body[data-theme='study'] .text-gray-400 {
+  color: #607080 !important;
+}
+
+body[data-theme='study'] .border-white\/10,
+body[data-theme='study'] .border-white\/25 {
+  border-color: rgba(88, 140, 110, 0.2) !important;
+}
+
+body[data-theme='study'] .shadow-\[0_24px_80px_rgba\(0\,0\,0\,0\.35\)\],
+body[data-theme='study'] .shadow-\[0_30px_100px_rgba\(0\,0\,0\,0\.35\)\],
+body[data-theme='study'] .shadow-\[0_16px_60px_rgba\(0\,0\,0\,0\.35\)\],
+body[data-theme='study'] .shadow-\[0_30px_120px_rgba\(0\,0\,0\,0\.55\)\] {
+  box-shadow: 0 20px 60px rgba(22, 48, 31, 0.08) !important;
+}
+
 /* Futuristic Cyber Grid */
 .bg-grid-pattern {
   background-size: 50px 50px;
@@ -96,3 +136,4 @@ body[data-theme='light'] .shadow-\[0_30px_120px_rgba\(0\,0\,0\,0\.55\)\] {
     transform: translateX(-33.333%);
   }
 }
+

@@ -1,34 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { BrainCircuit, ChevronDown, MoonStar, Palette, SunMedium } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { BookOpen, BrainCircuit, ChevronDown, Clock3, GraduationCap, Menu, MoonStar, Palette, SquareLibrary, SunMedium, X } from 'lucide-react';
 
 const paletteOptions = [
-  {
-    id: 'ocean',
-    label: 'Ocean',
-    swatches: ['#00F2FE', '#4FACFE'],
-  },
-  {
-    id: 'aurora',
-    label: 'Aurora',
-    swatches: ['#2DD4BF', '#3B82F6'],
-  },
-  {
-    id: 'sunset',
-    label: 'Sunset',
-    swatches: ['#FB923C', '#F472B6'],
-  },
-  {
-    id: 'royal',
-    label: 'Royal',
-    swatches: ['#818CF8', '#A78BFA'],
-  },
-  {
-    id: 'mint',
-    label: 'Mint',
-    swatches: ['#34D399', '#22C55E'],
-  },
+  { id: 'ocean', label: 'Ocean', swatches: ['#00F2FE', '#4FACFE'] },
+  { id: 'aurora', label: 'Aurora', swatches: ['#2DD4BF', '#3B82F6'] },
+  { id: 'sunset', label: 'Sunset', swatches: ['#FB923C', '#F472B6'] },
+  { id: 'royal', label: 'Royal', swatches: ['#818CF8', '#A78BFA'] },
+  { id: 'mint', label: 'Mint', swatches: ['#34D399', '#22C55E'] },
+];
+
+const menuItems = [
+  { to: '/roadmaps', label: 'Roadmaps', icon: SquareLibrary },
+  { to: '/analytics', label: 'Analytics', icon: Clock3 },
+  { to: '/college-reviews', label: 'Reviews', icon: GraduationCap },
+  { to: '/counselling', label: 'Counselling', icon: BookOpen },
 ];
 
 function hexToRgb(hex) {
@@ -49,6 +36,7 @@ export default function Navbar() {
   const [customPurple, setCustomPurple] = useState(() => localStorage.getItem('nextstep-custom-purple') || '#4FACFE');
   const [counsellingOpen, setCounsellingOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const paletteMenuRef = useRef(null);
 
   useEffect(() => {
@@ -72,11 +60,6 @@ export default function Navbar() {
     document.body.style.removeProperty('--accent-purple');
   }, [customCyan, customPurple, palette]);
 
-  const applyPalette = (nextPalette) => {
-    setPalette(nextPalette);
-    setPaletteOpen(false);
-  };
-
   useEffect(() => {
     const handlePointerDown = (event) => {
       if (paletteMenuRef.current && !paletteMenuRef.current.contains(event.target)) {
@@ -85,58 +68,62 @@ export default function Navbar() {
     };
 
     document.addEventListener('mousedown', handlePointerDown);
-
     return () => document.removeEventListener('mousedown', handlePointerDown);
   }, []);
+
+  const cycleTheme = () => {
+    setTheme((current) => {
+      if (current === 'dark') return 'light';
+      if (current === 'light') return 'study';
+      return 'dark';
+    });
+  };
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
     <motion.header
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-darkSurface/80 backdrop-blur-xl"
+      className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-darkSurface/85 backdrop-blur-xl"
     >
       <div className="overflow-hidden border-b border-white/10 bg-black/20">
         <div className="marquee-track flex w-max items-center gap-10 whitespace-nowrap px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-white/65 sm:px-6 lg:px-8">
-          <span>Plan your path. Learn faster. Review colleges. Get counselling.</span>
-          <span aria-hidden="true">Plan your path. Learn faster. Review colleges. Get counselling.</span>
-          <span aria-hidden="true">Plan your path. Learn faster. Review colleges. Get counselling.</span>
+          <span>Study smart. Build projects. Review colleges. Plan your future.</span>
+          <span aria-hidden="true">Study smart. Build projects. Review colleges. Plan your future.</span>
+          <span aria-hidden="true">Study smart. Build projects. Review colleges. Plan your future.</span>
         </div>
       </div>
 
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3" onClick={closeMobileMenu}>
           <div
             className="flex h-10 w-10 items-center justify-center rounded-xl border border-neonCyan/30 bg-darkSurface text-neonCyan"
             style={{ boxShadow: '0 0 24px rgb(var(--accent-cyan) / 0.18)' }}
           >
             <BrainCircuit className="h-5 w-5" />
           </div>
-          <div>
-            <p className="text-sm font-medium tracking-[0.22em] text-gray-400 uppercase">
-              NextStep
-            </p>
+          <div className="hidden sm:block">
+            <p className="text-sm font-medium tracking-[0.22em] text-gray-400 uppercase">NextStep</p>
             <p className="text-sm text-gray-400">AI Career Companion</p>
           </div>
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-medium text-gray-300 md:flex">
-          <Link to="/roadmaps" className="transition-colors hover:text-white">
-            Roadmaps
-          </Link>
-          <Link to="/analytics" className="transition-colors hover:text-white">
-            Analytics
-          </Link>
-          <Link to="/college-reviews" className="transition-colors hover:text-white">
-            Reviews
-          </Link>
+          {menuItems.map((item) => (
+            <Link key={item.to} to={item.to} className="inline-flex items-center gap-2 transition-colors hover:text-white">
+              <item.icon className="h-4 w-4" />
+              {item.label}
+            </Link>
+          ))}
           <div className="relative">
             <button
               type="button"
               onClick={() => setCounsellingOpen((current) => !current)}
               className="inline-flex items-center gap-1 transition-colors hover:text-white"
             >
-              Counselling
+              More
               <ChevronDown className="h-4 w-4" />
             </button>
 
@@ -161,8 +148,8 @@ export default function Navbar() {
           </div>
         </nav>
 
-        <div className="flex items-center gap-3">
-          <div className="relative" ref={paletteMenuRef}>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="relative hidden md:block" ref={paletteMenuRef}>
             <button
               type="button"
               onClick={() => setPaletteOpen((current) => !current)}
@@ -175,9 +162,7 @@ export default function Navbar() {
 
             {paletteOpen ? (
               <div className="absolute right-0 top-full mt-3 w-64 rounded-2xl border border-white/10 bg-darkSurface/95 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-                <div className="px-3 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-gray-400">
-                  Color palette
-                </div>
+                <div className="px-3 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-gray-400">Color palette</div>
                 {paletteOptions.map((option) => (
                   <button
                     key={option.id}
@@ -187,11 +172,7 @@ export default function Navbar() {
                   >
                     <span className="flex items-center gap-1">
                       {option.swatches.map((color) => (
-                        <span
-                          key={color}
-                          className="h-4 w-4 rounded-full border border-white/20"
-                          style={{ backgroundColor: color }}
-                        />
+                        <span key={color} className="h-4 w-4 rounded-full border border-white/20" style={{ backgroundColor: color }} />
                       ))}
                     </span>
                     <span>
@@ -236,9 +217,7 @@ export default function Navbar() {
                         className="h-11 w-full cursor-pointer rounded-lg border border-white/10 bg-transparent p-1"
                       />
                     </label>
-                    <p className="text-xs leading-5 text-gray-400">
-                      Pick your own two accent colors. The site updates instantly.
-                    </p>
+                    <p className="text-xs leading-5 text-gray-400">Pick your own two accent colors. The site updates instantly.</p>
                   </div>
                 </div>
               </div>
@@ -247,27 +226,125 @@ export default function Navbar() {
 
           <button
             type="button"
-            onClick={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-white/25 hover:bg-white/5"
-            aria-label="Toggle light and dark mode"
+            onClick={cycleTheme}
+            className="hidden items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-white/25 hover:bg-white/5 md:inline-flex"
+            aria-label="Toggle light and study mode"
           >
             {theme === 'dark' ? <SunMedium className="h-4 w-4" /> : <MoonStar className="h-4 w-4" />}
-            {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+            {theme === 'dark' ? 'Light' : theme === 'light' ? 'Study' : 'Dark'}
           </button>
+
           <Link
             to="/login"
-            className="rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-white/25 hover:bg-white/5"
+            className="hidden rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-white/25 hover:bg-white/5 md:inline-flex"
+            onClick={closeMobileMenu}
           >
             Log in
           </Link>
+
           <button
-            className="rounded-full bg-gradient-to-r from-neonCyan to-neonPurple px-4 py-2 text-sm font-bold text-black transition-transform hover:scale-[1.02]"
+            type="button"
+            onClick={() => setMobileMenuOpen((current) => !current)}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-2 text-sm font-medium text-white transition-colors hover:border-white/25 hover:bg-white/5 md:hidden"
+            aria-label="Open menu"
+          >
+            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            Menu
+          </button>
+
+          <button
+            className="hidden rounded-full bg-gradient-to-r from-neonCyan to-neonPurple px-4 py-2 text-sm font-bold text-black transition-transform hover:scale-[1.02] md:inline-flex"
             style={{ boxShadow: '0 0 28px rgb(var(--accent-cyan) / 0.2)' }}
           >
             Sign Up
           </button>
         </div>
       </div>
+
+      <AnimatePresence>
+        {mobileMenuOpen ? (
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 24 }}
+            transition={{ duration: 0.22 }}
+            className="fixed inset-y-0 right-0 z-[60] w-full max-w-sm border-l border-white/10 bg-[#09111f]/96 p-4 shadow-[0_30px_120px_rgba(0,0,0,0.55)] backdrop-blur-2xl md:hidden"
+          >
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-neonCyan">Study Mode</p>
+                <p className="text-sm text-gray-400">Quick access menu</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="rounded-full border border-white/10 p-2 text-gray-300 transition hover:bg-white/5 hover:text-white"
+                aria-label="Close menu"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-transparent p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-r from-neonCyan to-neonPurple text-black">
+                  <BookOpen className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">Study, plan, and improve</p>
+                  <p className="text-xs text-gray-400">A calm drawer for learning tools and pages.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 grid gap-2">
+              {menuItems.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={closeMobileMenu}
+                  className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-gray-200 transition hover:border-white/25 hover:bg-white/10 hover:text-white"
+                >
+                  <item.icon className="h-4 w-4 text-neonCyan" />
+                  {item.label}
+                </Link>
+              ))}
+              <Link
+                to="/login"
+                onClick={closeMobileMenu}
+                className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-gray-200 transition hover:border-white/25 hover:bg-white/10 hover:text-white"
+              >
+                <MoonStar className="h-4 w-4 text-neonCyan" />
+                Log in
+              </Link>
+            </div>
+
+            <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Theme</p>
+                  <p className="text-sm text-gray-300">Light / study / dark</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={cycleTheme}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-white/25 hover:bg-white/5"
+                >
+                  {theme === 'dark' ? <SunMedium className="h-4 w-4" /> : <MoonStar className="h-4 w-4" />}
+                  {theme === 'dark' ? 'Light' : theme === 'light' ? 'Study' : 'Dark'}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Palette</p>
+              <p className="mt-2 text-sm leading-6 text-gray-400">
+                Palette controls stay hidden on mobile so the header is cleaner and easier to use.
+              </p>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </motion.header>
   );
 }
