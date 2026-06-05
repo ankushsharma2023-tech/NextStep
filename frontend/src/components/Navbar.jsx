@@ -263,13 +263,25 @@ export default function Navbar() {
 
       <AnimatePresence>
         {mobileMenuOpen ? (
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 24 }}
-            transition={{ duration: 0.22 }}
-            className="fixed inset-y-0 right-0 z-[60] w-full max-w-sm border-l border-white/10 bg-[#09111f]/96 p-4 shadow-[0_30px_120px_rgba(0,0,0,0.55)] backdrop-blur-2xl md:hidden"
-          >
+          <>
+            <motion.button
+              type="button"
+              aria-label="Close menu overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 z-[59] bg-black/65 backdrop-blur-[2px] md:hidden"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 24 }}
+              transition={{ duration: 0.22 }}
+              className="fixed inset-y-0 right-0 z-[60] w-full max-w-sm border-l border-emerald-200/15 bg-[#050b14] p-4 text-white shadow-[0_30px_120px_rgba(0,0,0,0.75)] md:hidden"
+            >
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-neonCyan">Study Mode</p>
@@ -342,7 +354,8 @@ export default function Navbar() {
                 Palette controls stay hidden on mobile so the header is cleaner and easier to use.
               </p>
             </div>
-          </motion.div>
+            </motion.div>
+          </>
         ) : null}
       </AnimatePresence>
     </motion.header>
