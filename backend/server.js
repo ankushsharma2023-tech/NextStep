@@ -25,11 +25,13 @@ app.options('*', cors(corsOptions));
 app.use(express.json());
 
 // Database Connection
-const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/nextstep';
+// Database Connection
+const mongoUri = process.env.MONGO_URI || 'mongodb+srv://ankushsharma2023_db_user:1grMUQfEq2zGHI1N@cluster0.b3akra1.mongodb.net/nextstep?retryWrites=true&w=majority';
+
 mongoose.connect(mongoUri)
-  .then(() => console.log('? MongoDB Connected'))
+  .then(() => console.log('✅ MongoDB Connected'))
   .catch(err => {
-    console.error('? MongoDB Error: Failed to connect to', mongoUri);
+    console.error('❌ MongoDB Error: Failed to connect to', mongoUri);
     console.error(err);
   });
 
