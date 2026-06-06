@@ -23,7 +23,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions)); // <-- No quote marks! This is a raw Regex.
 app.use(express.json());
-const mongoUri = process.env.MONGO_URI || 'mongodb+srv://ankushsharma2023_db_user:1grMUQfEq2zGHI1N@cluster0.b3akra1.mongodb.net/nextstep?retryWrites=true&w=majority';
+const mongoUri = process.env.MONGO_URI || 'mongodb+srv://ankushsharma2023_db_user:1grMUQfEq2zGHI1N@cluster0.b3gkra1.mongodb.net/nextstep?retryWrites=true&w=majority';
 
 mongoose.connect(mongoUri)
   .then(() => console.log('✅ MongoDB Connected'))
