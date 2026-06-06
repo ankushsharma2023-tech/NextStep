@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, ChevronLeft, MessageCircle, Send, Sparkles, X } from 'lucide-react';
+import { Bot, ChevronDown, MessageCircle, Send, Sparkles, X } from 'lucide-react';
 
 const starterMessages = [
   {
@@ -47,15 +47,23 @@ export default function AnkushAiSidebar() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState(starterMessages);
+  
+  // NEW: Ref to track the bottom of the chat for auto-scrolling
+  const messagesEndRef = useRef(null);
 
   const canSend = useMemo(() => message.trim().length > 0, [message]);
+
+  // NEW: Auto-scroll to the bottom whenever the chat array updates
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chat, open]);
 
   const sendMessage = (text) => {
     const trimmedText = text.trim();
 
-    if (!trimmedText) {
-      return;
-    }
+    if (!trimmedText) return;
 
     const userMessage = {
       id: Date.now(),
@@ -74,18 +82,19 @@ export default function AnkushAiSidebar() {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end">
       <AnimatePresence>
-        {open ? (
+        {open && (
           <motion.aside
             initial={{ opacity: 0, x: 24, y: 16 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: 24, y: 16 }}
             transition={{ duration: 0.22 }}
-            className="mb-4 w-[92vw] max-w-sm overflow-hidden rounded-3xl border border-white/10 bg-[#09111f]/95 backdrop-blur-2xl"
+            className="mb-4 flex w-[92vw] max-w-sm flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#09111f]/95 backdrop-blur-2xl sm:w-[380px]"
             style={{ boxShadow: '0 30px 120px rgba(0, 0, 0, 0.55), 0 0 42px rgba(var(--accent-cyan), 0.08)' }}
           >
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-4">
+            {/* Header */}
+            <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-4 py-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-r from-neonCyan to-neonPurple text-black">
                   <Bot className="h-5 w-5" />
@@ -105,18 +114,26 @@ export default function AnkushAiSidebar() {
               </button>
             </div>
 
-            <div className="max-h-96 space-y-3 overflow-y-auto px-4 py-4">
+            {/* Chat Messages Area */}
+            <div className="flex-1 max-h-[50vh] min-h-[300px] space-y-4 overflow-y-auto px-4 py-4 scrollbar-thin scrollbar-thumb-white/10">
               {chat.map((entry) => (
                 <div
                   key={entry.id}
-                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-6 ${entry.role === 'user' ? 'ml-auto bg-gradient-to-r from-neonCyan to-neonPurple text-black' : 'bg-white/5 text-gray-100'}`}
+                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-6 ${
+                    entry.role === 'user'
+                      ? 'ml-auto bg-gradient-to-r from-neonCyan to-neonPurple text-black rounded-br-sm'
+                      : 'bg-white/10 text-gray-100 rounded-bl-sm'
+                  }`}
                 >
                   {entry.text}
                 </div>
               ))}
+              {/* Invisible element to act as the scroll target */}
+              <div ref={messagesEndRef} />
             </div>
 
-            <div className="border-t border-white/10 px-4 py-4">
+            {/* Input Area */}
+            <div className="shrink-0 border-t border-white/10 bg-black/20 px-4 py-4">
               <div className="mb-3 flex flex-wrap gap-2">
                 {quickPrompts.map((prompt) => (
                   <button
@@ -130,7 +147,7 @@ export default function AnkushAiSidebar() {
                 ))}
               </div>
 
-              <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/30 px-3 py-2">
+              <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/40 px-3 py-2 focus-within:border-neonCyan/50 focus-within:ring-1 focus-within:ring-neonCyan/50 transition-all">
                 <input
                   type="text"
                   value={message}
@@ -142,12 +159,13 @@ export default function AnkushAiSidebar() {
                   }}
                   placeholder="Ask Ankush AI..."
                   className="flex-1 bg-transparent px-2 py-2 text-sm text-white outline-none placeholder:text-gray-500"
+                  autoComplete="off"
                 />
                 <button
                   type="button"
                   onClick={() => sendMessage(message)}
                   disabled={!canSend}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r from-neonCyan to-neonPurple text-black transition disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-neonCyan to-neonPurple text-black transition disabled:cursor-not-allowed disabled:opacity-50 hover:scale-105 active:scale-95"
                   aria-label="Send message"
                 >
                   <Send className="h-4 w-4" />
@@ -155,21 +173,22 @@ export default function AnkushAiSidebar() {
               </div>
             </div>
           </motion.aside>
-        ) : null}
+        )}
       </AnimatePresence>
 
+      {/* Floating Action Button */}
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className="ml-auto flex items-center gap-3 rounded-full border border-white/10 bg-[#09111f]/95 px-4 py-3 text-sm font-semibold text-white backdrop-blur-xl transition hover:border-neonCyan/40"
+        className="flex items-center gap-3 rounded-full border border-white/10 bg-[#09111f]/95 px-4 py-3 text-sm font-semibold text-white backdrop-blur-xl transition hover:border-neonCyan/40 hover:scale-105 active:scale-95"
         style={{ boxShadow: '0 16px 60px rgba(0, 0, 0, 0.35), 0 0 24px rgba(var(--accent-cyan), 0.08)' }}
         aria-label="Toggle Ankush AI sidebar"
       >
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-neonCyan to-neonPurple text-black">
           <Sparkles className="h-4 w-4" />
         </span>
-        <span>Ask Ankush AI</span>
-        {open ? <ChevronLeft className="h-4 w-4" /> : <MessageCircle className="h-4 w-4" />}
+        <span className="hidden sm:inline">Ask Ankush AI</span>
+        {open ? <ChevronDown className="h-4 w-4" /> : <MessageCircle className="h-4 w-4" />}
       </button>
     </div>
   );
