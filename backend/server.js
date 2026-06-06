@@ -21,8 +21,9 @@ const corsOptions = {
 
 // Middleware
 // Middleware
+// Middleware
 app.use(cors(corsOptions));
-app.options('/*', cors(corsOptions)); // <-- Added the forward slash before the asterisk
+app.options('/(.*)', cors(corsOptions)); // <-- Changed '/*' to '/(.*)'
 app.use(express.json());
 
 // Database Connection
