@@ -48,12 +48,10 @@ export default function AnkushAiSidebar() {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState(starterMessages);
   
-  // NEW: Ref to track the bottom of the chat for auto-scrolling
   const messagesEndRef = useRef(null);
 
   const canSend = useMemo(() => message.trim().length > 0, [message]);
 
-  // NEW: Auto-scroll to the bottom whenever the chat array updates
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -65,14 +63,17 @@ export default function AnkushAiSidebar() {
 
     if (!trimmedText) return;
 
+    // Securely capture the timestamp once inside the callback to prevent React purity errors
+    const timestamp = Date.now();
+
     const userMessage = {
-      id: Date.now(),
+      id: timestamp,
       role: 'user',
       text: trimmedText,
     };
 
     const assistantMessage = {
-      id: Date.now() + 1,
+      id: timestamp + 1,
       role: 'assistant',
       text: getReply(trimmedText),
     };
@@ -128,7 +129,6 @@ export default function AnkushAiSidebar() {
                   {entry.text}
                 </div>
               ))}
-              {/* Invisible element to act as the scroll target */}
               <div ref={messagesEndRef} />
             </div>
 
